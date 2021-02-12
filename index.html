@@ -73,13 +73,66 @@
                 </td>
                 <td width="438" height="582" class="the_wheel" align="center" valign="center">
                     <canvas id="canvas" width="434" height="434">
-                        <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try
+                        <p style="color: white" align="center">Sorry, your browser doesn't support canvas. Please try
                             another.</p>
                     </canvas>
                 </td>
             </tr>
         </table>
+        <script src="node_modules/jquery/dist/jquery.min.js"></script>
         <script>
+            var participantes = [];
+            var tirada = 0;
+            $(document).ready(function () {
+                participantes = [
+                    { nombre: "p1", premio: undefined },
+                    { nombre: "p2", premio: undefined },
+                    { nombre: "p3", premio: undefined },
+                    { nombre: "p4", premio: undefined },
+                    { nombre: "p5", premio: undefined },
+                    { nombre: "p6", premio: undefined },
+                    { nombre: "p7", premio: undefined },
+                    { nombre: "p8", premio: undefined },
+                    { nombre: "p9", premio: undefined },
+                    { nombre: "p10", premio: undefined },
+                    { nombre: "p11", premio: undefined },
+                    { nombre: "p12", premio: undefined },
+                    { nombre: "p13", premio: undefined },
+                    { nombre: "p14", premio: undefined },
+                    { nombre: "p15", premio: undefined },
+                    { nombre: "p16", premio: undefined },
+                    { nombre: "p17", premio: undefined }];
+                var premios = [1,2,3,4];
+                var maxInterval = Math.round(participantes.length / premios.length);
+
+                var iteradorPremiado = -1;
+
+                while (premios.length > 0) {
+                    var proxPremiado = getRandomInt(1, maxInterval + 2);
+                    var particPremiado = iteradorPremiado + proxPremiado;
+                    iteradorPremiado = particPremiado;
+
+                    var proxPremio = getRandomInt(0, premios.length);
+                    participantes[particPremiado].premio = premios[proxPremio];
+
+                    premios.splice(proxPremio, 1);
+                    
+                }
+
+                console.log(participantes);
+
+            });
+
+            //Function to get random Int on interval [min, max)
+            //https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Math/random
+            function getRandomInt(min, max) {
+                return Math.floor(Math.random() * (max - min)) + min;
+            }
+            function obtenerPremio() {
+                var part = participantes[tirada].premio == undefined ? 5 : participantes[tirada].premio;
+                console.log(part);
+                return theWheel.getRandomForSegment(part)
+            }
             // Create new wheel object specifying the parameters at creation time.
             let theWheel = new Winwheel({
                 'outerRadius': 212,        // Set outer radius so wheel fits inside the background.
@@ -183,7 +236,7 @@
                     document.getElementById('spin_button').src = "spin_off.png";
                     document.getElementById('spin_button').className = "";
                     // This formula always makes the wheel stop somewhere inside the segment selected
-                    let stopAt = theWheel.getRandomForSegment(5);
+                    let stopAt = obtenerPremio();
 
                     // Important thing is to set the stopAngle of the animation before stating the spin.
                     theWheel.animation.stopAngle = stopAt;
@@ -217,13 +270,12 @@
             function alertPrize(indicatedSegment) {
                 // Just alert to the user what happened.
                 // In a real project probably want to do something more interesting than this with the result.
-                if (indicatedSegment.text == 'LOOSE TURN') {
-                    alert('Sorry but you loose a turn.');
-                } else if (indicatedSegment.text == 'BANKRUPT') {
-                    alert('Oh no, you have gone BANKRUPT!');
+                if (indicatedSegment.text == 'SIGUE INTENTADOLO') {
+                    alert('Lo sentimos, '+ participantes[tirada].nombre + ', no ha ganado nada en esta oportunidad');
                 } else {
-                    alert("You have won " + indicatedSegment.text);
+                    alert(participantes[tirada].nombre + " ha ganado 1 " + indicatedSegment.text);
                 }
+                tirada++;
             }
         </script>
 </body>

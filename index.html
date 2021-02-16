@@ -121,31 +121,38 @@
             console.log(part);
             return theWheel.getRandomForSegment(part)
         }
-        // Create new wheel object specifying the parameters at creation time.
+
         let theWheel = new Winwheel({
             'outerRadius': 212,        // Set outer radius so wheel fits inside the background.
             'innerRadius': 75,         // Make wheel hollow so segments don't go all way to center.
             'textFontSize': 8,         // Set default font size for the segments.
             'textOrientation': 'curved', // Make text vertial so goes down from the outside of wheel.
-            'textAlignment': 'center',    // Align text to outside of wheel.
-            'numSegments': 10,         // Specify number of segments.
+            'numSegments': 10,
+            'drawText': false,           // Code drawn text can be used with segment images.
+            'textAlignment': 'center',
+            'textFontFamily': 'monospace',
+            'textStrokeStyle': 'black',
+            'textLineWidth': 3,
+            'textFillStyle': 'white',
+            'imageDirection' : 'N',  
+            'drawMode': 'segmentImage',        // Specify number of segments.
             'segments':             // Define segments including colour and text.
                 [                               // font size and test colour overridden on backrupt segments.
-                    { 'fillStyle': 'rgb(165,34,28)', 'text': 'Libreta'},
-                    { 'fillStyle': 'rgb(137,34,28)', 'text': 'Mochila'},
-                    { 'fillStyle': 'rgb(137,30,67)', 'text': '2 Noches\n 2 Personas\n SAI'},
-                    { 'fillStyle': 'rgb(255,62,108)', 'text': 'Sombrilla'},
-                    { 'fillStyle': 'rgb(255,89,140)', 'text': 'Maletin'},
-                    { 'fillStyle': 'rgb(255,120,175)', 'text': 'Viaje Receptivo'},
-                    { 'fillStyle': 'rgb(255,147,175)', 'text': 'Chocolate'},
-                    { 'fillStyle': 'rgb(255,167,181)', 'text': 'SIGUE INTENTADOLO'},
-                    { 'fillStyle': 'rgb(255,185,191)', 'text': 'Helado'},
-                    { 'fillStyle': 'rgb(191,34,28)', 'text': 'Monopod'},
+                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(165,34,28)', 'text': 'Libreta' },
+                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(137,34,28)', 'text': 'Mochila' },
+                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(137,30,67)', 'text': '2 Noches\n 2 Personas\n SAI' },
+                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(255,62,108)', 'text': 'Sombrilla' },
+                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(255,89,140)', 'text': 'Maletin' },
+                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(255,120,175)', 'text': 'Viaje\n Receptivo' },
+                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(255,147,175)', 'text': 'Chocolate' },
+                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(255,167,181)', 'text': 'SIGUE\n INTENTADOLO' },
+                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(255,185,191)', 'text': 'Helado' },
+                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(191,34,28)', 'text': 'Monopod'},
                 ],
             'animation':           // Specify the animation to use.
             {
                 'type': 'spinToStop',
-                'duration': 10,    // Duration in seconds.
+                'duration': 5,    // Duration in seconds.
                 'spins': 3,     // Default number of complete spins.
                 'callbackFinished': alertPrize,
                 'callbackSound': playSound,   // Function to call when the tick sound is to be triggered.
@@ -185,7 +192,7 @@
             if (wheelSpinning == false) {
                 // Based on the power level selected adjust the number of spins for the wheel, the more times is has
                 // to rotate with the duration of the animation the quicker the wheel spins.
-                theWheel.animation.spins = 6;
+                theWheel.animation.spins = 3;
 
                 // Disable the spin button so can't click again while wheel is spinning.
                 // document.getElementById('spin_button').src = "spin_off.png";

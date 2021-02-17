@@ -68,6 +68,8 @@
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
     <script>
         var participantes = [];
         var tirada = 0;
@@ -117,7 +119,7 @@
             return Math.floor(Math.random() * (max - min)) + min;
         }
         function obtenerPremio() {
-            var part = participantes[tirada].premio == undefined ? 5 : participantes[tirada].premio;
+            var part = participantes[tirada].premio == undefined ? 8 : participantes[tirada].premio;
             console.log(part);
             return theWheel.getRandomForSegment(part)
         }
@@ -134,20 +136,20 @@
             'textStrokeStyle': 'black',
             'textLineWidth': 3,
             'textFillStyle': 'white',
-            'imageDirection' : 'N',  
+            'imageDirection': 'N',
             'drawMode': 'segmentImage',        // Specify number of segments.
             'segments':             // Define segments including colour and text.
                 [                               // font size and test colour overridden on backrupt segments.
-                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(165,34,28)', 'text': 'Libreta' },
-                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(137,34,28)', 'text': 'Mochila' },
+                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(165,34,28)', 'text': '1 Libreta' },
+                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(137,34,28)', 'text': '1 Mochila' },
                     { 'image': 'img/libreta.png', 'fillStyle': 'rgb(137,30,67)', 'text': '2 Noches\n 2 Personas\n SAI' },
-                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(255,62,108)', 'text': 'Sombrilla' },
-                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(255,89,140)', 'text': 'Maletin' },
-                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(255,120,175)', 'text': 'Viaje\n Receptivo' },
-                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(255,147,175)', 'text': 'Chocolate' },
+                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(255,62,108)', 'text': '1 Sombrilla' },
+                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(255,89,140)', 'text': '1 Maletin' },
+                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(255,120,175)', 'text': '1 Viaje\n Receptivo' },
+                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(255,147,175)', 'text': '1 Chocolate' },
                     { 'image': 'img/libreta.png', 'fillStyle': 'rgb(255,167,181)', 'text': 'SIGUE\n INTENTADOLO' },
-                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(255,185,191)', 'text': 'Helado' },
-                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(191,34,28)', 'text': 'Monopod'},
+                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(255,185,191)', 'text': '1 Helado' },
+                    { 'image': 'img/libreta.png', 'fillStyle': 'rgb(191,34,28)', 'text': '1 Monopod' },
                 ],
             'animation':           // Specify the animation to use.
             {
@@ -204,6 +206,8 @@
                     theWheel.animation.stopAngle = stopAt;
 
                 }
+                // let stopAt = theWheel.getRandomForSegment(8)
+                // theWheel.animation.stopAngle = stopAt;
 
                 // Begin the spin animation by calling startAnimation on the wheel object.
                 theWheel.startAnimation();
@@ -231,11 +235,28 @@
         function alertPrize(indicatedSegment) {
             // Just alert to the user what happened.
             // In a real project probably want to do something more interesting than this with the result.
+
             var participante = (participantes.length > 0) ? participantes[tirada].nombre : " El participante";
-            if (indicatedSegment.text == 'SIGUE INTENTADOLO') {
-                alert('Lo sentimos, ' + participante + ', no ha ganado nada en esta oportunidad');
+            if (indicatedSegment.text == 'SIGUE\n INTENTADOLO') {
+                Swal.fire({
+                    title: 'Lo sentimos!',
+                    text: participante + ', no ha ganado nada en esta oportunidad',
+                    imageUrl: './img/icon.png',
+                    imageWidth: 200,
+                    imageHeight: 200,
+                    imageAlt: indicatedSegment.text,
+                })
+                // alert('Lo sentimos, ' + participante + ', no ha ganado nada en esta oportunidad');
             } else {
-                alert(participante + " ha ganado 1 " + indicatedSegment.text);
+                // alert(participante + " ha ganado 1 " + indicatedSegment.text);
+                Swal.fire({
+                    title: 'Felicidades!',
+                    text: participante + " ha ganado  " + indicatedSegment.text,
+                    imageUrl: './img/icon.png',
+                    imageWidth: 200,
+                    imageHeight: 200,
+                    imageAlt: indicatedSegment.text,
+                })
             }
             setTimeout(() => {
                 resetWheel()
